@@ -73,7 +73,7 @@ public class Main {
 		
 		int wordCount = words.size();
 		//int limit = (int)(wordCount * 0.8);
-		int limit = wordCount - 20; // Just 20 words to see that this works
+		int limit = wordCount - 10000; // Just 20 words to see that this works
 		List<String> trainingSet = words.subList(0, limit);
 		List<String> testSet = words.subList(limit, words.size());
 		
@@ -112,7 +112,10 @@ public class Main {
 		
 		int correctWithDash = 0;
 		int correctNoDash = 0;
-		int total = 0;
+		int expectedWithDash = 0;
+		int expectedNoDash = 0;
+		int correctWords = 0;
+		int totalWords = 0;
 		
 		for (String testWord : testSet){
 			//String testWord = "INN-STILL-ING-ER";
@@ -127,11 +130,24 @@ public class Main {
 			
 			boolean[] expected = wordToAnswers(testWord);
 			
+			++totalWords;
+			boolean allCorrect = true;
+			
 			for (int i = 0; i < testInput.length; ++i) {
 				double[] testOutput = mlp.run(testInput[i]);
-				++total;
-				//if ((!expected[i]) )
+				if (expected[i]) {
+					++expectedWithDash;
+					if (testOutput[0] > 0.5) ++correctWithDash;
+					else allCorrect = false;
+				}
+				if (!expected[i]) {
+					++expectedNoDash;
+					if (testOutput[0] <= 0.5) ++correctNoDash;
+					else allCorrect = false;
+				}
 			}
+			
+			if (allCorrect) ++correctWords;
 			
 			/*
 			System.out.print(testWord + " / ");
@@ -147,6 +163,31 @@ public class Main {
 			System.out.println(cleanTestWord.charAt(cleanTestWord.length() - 1));
 			*/
 		}
+		
+		int correctTotal = correctWithDash + correctNoDash; // Total correct guesses
+		int expectedTotal = expectedWithDash + expectedNoDash; // Total guesses made
+		double correctWithDashRate = 100.0 * correctWithDash / expectedWithDash;
+		double correctNoDashRate = 100.0 * correctNoDash / expectedNoDash;
+		double overallRate = 100.0 * correctTotal / expectedTotal; // Rate of correct guesses out of guesses made
+		
+		int totalErrors = expectedTotal - correctTotal;
+		
+		int falsePositives = expectedNoDash - correctNoDash; // False positives
+		double falsePositiveRate = 100.0 * falsePositives / expectedNoDash; // Rate of false positives to expected negatives
+		double falsePositiveProportion = 100.0 * falsePositives / totalErrors;
+		
+		int falseNegatives = expectedWithDash - correctWithDash;
+		double falseNegativeRate = 100.0 * falseNegatives / expectedWithDash; // Rate of false negatives to expected positives
+		double falseNegativeProportion = 100.0 * falseNegatives / totalErrors;
+		
+		double correctWordRate = 100.0 * correctWords / totalWords;
+		
+		System.out.printf("Overall correct guesses: %d / %d (%.2f%%)\n", correctTotal, expectedTotal, overallRate);
+		System.out.printf("Correctly placed dashes: %d (%.2f%%)\n", correctWithDash, correctWithDashRate);
+		System.out.printf("Correctly avoided dashes: %d (%.2f%%)\n", correctNoDash, correctNoDashRate);
+		System.out.printf("False positives: %d (%.2f%% of expected negatives, %.2f%% of errors)\n", falsePositives, falsePositiveRate, falsePositiveProportion);
+		System.out.printf("False negatives: %d (%.2f%% of expected positives, %.2f%% of errors)\n", falseNegatives, falseNegativeRate, falseNegativeProportion);
+		System.out.printf("Completely correct words: %d / %d (%.2f%%)", correctWords, totalWords, correctWordRate);
 	}
 
 }
