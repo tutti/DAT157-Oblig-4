@@ -1,5 +1,6 @@
 package problem1;
 
+import no.patternsolutions.javann.Bam;
 import no.patternsolutions.javann.Hopfield;
 
 public class Main {
@@ -404,6 +405,19 @@ public class Main {
 		}
 		return sb.toString();
 	}
+	
+	private static boolean[] nameToBoolArray(String name) {
+		for (int i = 0; i < NAMES.length; ++i) {
+			if (name.equals(NAMES[i])) return nameToBoolArray(i);
+		}
+		return null;
+	}
+	
+	private static boolean[] nameToBoolArray(int name) {
+		boolean[] arr = new boolean[NAMES.length];
+		arr[name] = true;
+		return arr;
+	}
 
 	public static void main(String[] args) {
 		//Hopfield hopfield = new Hopfield(EYE_COLOURS.length + HAIR_TYPES.length + SEXES.length + COUNTRIES.length + NAMES.length + 17);
@@ -441,6 +455,7 @@ public class Main {
 		
 		boolean[] test = hopfield.run(donald);
 
+		System.out.println("HOPFIELD NETWORK:");
 		System.out.println("Name: " + getName(test));
 		System.out.println("Sex: " + getSex(test));
 		System.out.println("Age: " + getAge(test) + " years");
@@ -449,6 +464,29 @@ public class Main {
 		System.out.println("Hair type: " + getHairType(test));
 		System.out.println("Height: " + getHeight(test) + "cm");
 		
+		Bam bam = new Bam(EYE_COLOURS.length + HAIR_TYPES.length + SEXES.length + COUNTRIES.length + NAMES.length + 17, NAMES.length);
+		
+		boolean[][] namePatterns = new boolean[NAMES.length][NAMES.length];
+		for (int i = 0; i < NAMES.length; ++i) {
+			namePatterns[i][i] = true;
+		}
+		
+		bam.trainPatterns(nastyPeople, namePatterns);
+		bam.setBipolar(true);
+		bam.setRandomUpdate(false);
+		bam.setStored(false);
+		
+		boolean[][] bamtest = bam.run(neo, null);
+		
+		System.out.println();
+		System.out.println("BAM NETWORK:");
+		System.out.println("Name: " + getName(bamtest[0]));
+		System.out.println("Sex: " + getSex(bamtest[0]));
+		System.out.println("Age: " + getAge(bamtest[0]) + " years");
+		System.out.println("Country: " + getCountry(bamtest[0]));
+		System.out.println("Eye colour: " + getEyeColour(bamtest[0]));
+		System.out.println("Hair type: " + getHairType(bamtest[0]));
+		System.out.println("Height: " + getHeight(bamtest[0]) + "cm");
 	}
 
 }
