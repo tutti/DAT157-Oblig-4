@@ -141,10 +141,15 @@ public class Main {
 
 	public static void main(String[] args) {
 		// train counterpropagation
-		Counterpropagation counterpropagation = new Counterpropagation(12, 32, 21);
-		counterpropagation.setIterations(10000);
-		counterpropagation.setNeighbourRange(0.95);
+		Counterpropagation counterpropagation = new Counterpropagation(12, 150, 21);
+		counterpropagation.setIterations(200000);
+		counterpropagation.setNeighbourRange(0.5);
 		counterpropagation.setNeighbourDecrese(Kohonen.LINEAR_DECRESE);
+		counterpropagation.setTwoStep(false);
+		counterpropagation.setRandomUpdate(false);
+		counterpropagation.setLearnRateA(0.5);
+		counterpropagation.setLearnRateB(0.5);
+		
 		
 		// Build the input data from the above
         double[][] input = new double[64][12];
@@ -161,6 +166,8 @@ public class Main {
         counterpropagation.trainPatterns(input, answers);
         
      // Test the network
+        double noCorrect = 0;
+        double total = 63;
         for (Map.Entry<String, double[]> entry : solution.entrySet()) {
             double[] output = counterpropagation.run(codon(entry.getKey()));
             
@@ -191,10 +198,17 @@ public class Main {
                 System.out.print(" (correct answer: ");
                 System.out.print(correctName);
                 System.out.print(")");
+            } else {
+            	noCorrect++;
             }
             
             System.out.println();
+            
         }
+        
+        System.out.println("");
+        double percentage = (noCorrect/total*100);
+        System.out.println("Correct answers: " + percentage + "%");
 
 	}
 
