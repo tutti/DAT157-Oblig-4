@@ -34,7 +34,7 @@ public class Main {
 		Counterpropagation counterpropagation = new Counterpropagation(144, 144, 144);
 		counterpropagation.setIterations(10000);
 		counterpropagation.setNeighbourRange(0.95);
-		counterpropagation.setNeighbourDecrese(Kohonen.LINEAR_DECRESE);
+		counterpropagation.setNeighbourDecrease(Kohonen.LINEAR_DECRESE);
 		counterpropagation.trainPatterns(patterns, outpatterns);
 		
 		

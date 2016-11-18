@@ -460,8 +460,8 @@ public class Main {
 		
 		bam.trainPatterns(nastyPeople, namePatterns);
 		bam.setBipolar(true);
-		bam.setRandomUpdate(false);
-		bam.setStored(false);
+		//bam.setRandomUpdate(false);
+		//bam.setStored(false);
 		
 		boolean[][] bamtest = bam.run(neo, null);
 		
