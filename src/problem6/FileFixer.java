@@ -22,7 +22,7 @@ public class FileFixer {
 				//data[i] = 'a';
 				data[i] = -59;
 			}
-			if ((data[i] < 'A' || data[i] > 'Z') && data[i] != '-' && data[i] != 'a' && data[i] != 'e' && data[i] != 'o' && data[i] != 10 && data[i] != 13) {
+			if ((data[i] < 'A' || data[i] > 'Z') && data[i] != '-' && data[i] != 10 && data[i] != 13) {
 				System.out.println((char)data[i] + " " + data[i]);
 			}
 		}
