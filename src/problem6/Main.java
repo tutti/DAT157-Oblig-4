@@ -40,7 +40,6 @@ public class Main {
 		boolean[][] out = new boolean[clean.length() - 1][240];
 		
 		for (int i = 0; i < clean.length() - 1; ++i) {
-			//boolean[] characters = new boolean[240];
 			for (int j = 0; j < 8; ++j) {
 				char c = charAt(clean, i + j - 3);
 				int val = chars.get(c);
@@ -110,7 +109,7 @@ public class Main {
 		int totalWords = 0;
 		
 		for (String testWord : testSet){
-			//String testWord = "INN-STILL-ING-ER";
+			if (testWord.equals("") || testWord.equals("-")) continue;
 			boolean[][] _testInput = wordToBoolArray(testWord);
 			
 			double[][] testInput = new double[_testInput.length][_testInput[0].length];
