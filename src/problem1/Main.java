@@ -405,19 +405,6 @@ public class Main {
 		}
 		return sb.toString();
 	}
-	
-	private static boolean[] nameToBoolArray(String name) {
-		for (int i = 0; i < NAMES.length; ++i) {
-			if (name.equals(NAMES[i])) return nameToBoolArray(i);
-		}
-		return null;
-	}
-	
-	private static boolean[] nameToBoolArray(int name) {
-		boolean[] arr = new boolean[NAMES.length];
-		arr[name] = true;
-		return arr;
-	}
 
 	public static void main(String[] args) {
 		//Hopfield hopfield = new Hopfield(EYE_COLOURS.length + HAIR_TYPES.length + SEXES.length + COUNTRIES.length + NAMES.length + 17);
@@ -447,8 +434,8 @@ public class Main {
 		boolean[] tingle = toBoolArray("Green", "Spiky", 136, "Male", 22, "Azerbaijan", "Tingle");
 		
 		boolean[][] nastyPeople = {
-			anne, erna, donald, magicmike, jose, nigel, pikachu, frieza, hamburglar, johnhopfield,
-			noddy, sandman, neo, jessie, james, tingle
+			anne, erna, donald/*, magicmike, jose, nigel, pikachu, frieza, hamburglar, johnhopfield,
+			noddy, sandman, neo, jessie, james, tingle*/
 		};
 		
 		hopfield.trainPatterns(nastyPeople);
@@ -487,6 +474,9 @@ public class Main {
 		System.out.println("Eye colour: " + getEyeColour(bamtest[0]));
 		System.out.println("Hair type: " + getHairType(bamtest[0]));
 		System.out.println("Height: " + getHeight(bamtest[0]) + "cm");
+		
+		System.out.println();
+		System.out.println(EYE_COLOURS.length + HAIR_TYPES.length + SEXES.length + COUNTRIES.length + NAMES.length + 17);
 	}
 
 }

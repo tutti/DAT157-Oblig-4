@@ -2,6 +2,7 @@ package problem2;
 
 import java.io.IOException;
 import no.patternsolutions.javann.Counterpropagation;
+import no.patternsolutions.javann.Kohonen;
 
 public class Main {
 
@@ -31,7 +32,9 @@ public class Main {
 		
 		//train counterpropagation
 		Counterpropagation counterpropagation = new Counterpropagation(144, 144, 144);
-		counterpropagation.setIterations(100000);
+		counterpropagation.setIterations(10000);
+		counterpropagation.setNeighbourRange(0.95);
+		counterpropagation.setNeighbourDecrese(Kohonen.LINEAR_DECRESE);
 		counterpropagation.trainPatterns(patterns, outpatterns);
 		
 		
