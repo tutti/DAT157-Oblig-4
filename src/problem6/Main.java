@@ -46,8 +46,6 @@ public class Main {
 				int val = chars.get(c);
 				out[i][30*j + val] = true;
 			}
-			//trainingData.add(characters);
-			//trainingAnswers.add(answers[i]);
 		}
 		
 		return out;
@@ -72,18 +70,12 @@ public class Main {
 		Collections.shuffle(words);
 		
 		int wordCount = words.size();
-		//int limit = (int)(wordCount * 0.8);
-		int limit = wordCount - 10000; // Just 20 words to see that this works
+		int limit = wordCount - 10000;
 		List<String> trainingSet = words.subList(0, limit);
 		List<String> testSet = words.subList(limit, words.size());
 		
 		ArrayList<boolean[]> trainingData = new ArrayList<boolean[]>();
 		ArrayList<Boolean> trainingAnswers = new ArrayList<Boolean>();
-		
-		/*/
-		trainingSet = new ArrayList<String>();
-		trainingSet.add("TIL-LITS-SKAP-ENDE");
-		/**/
 		
 		for (String word : trainingSet) {
 			if (word.equals("") || word.equals("-")) continue;
@@ -148,20 +140,6 @@ public class Main {
 			}
 			
 			if (allCorrect) ++correctWords;
-			
-			/*
-			System.out.print(testWord + " / ");
-			
-			for (int i = 0; i < testInput.length; ++i) {
-				double[] testOutput = mlp.run(testInput[i]);
-				System.out.print(cleanTestWord.charAt(i));
-				if (testOutput[0] > 0.5) {
-					System.out.print("-");
-				}
-			}
-			String cleanTestWord = testWord.replace("-", "");
-			System.out.println(cleanTestWord.charAt(cleanTestWord.length() - 1));
-			*/
 		}
 		
 		int correctTotal = correctWithDash + correctNoDash; // Total correct guesses
