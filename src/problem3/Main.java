@@ -27,21 +27,26 @@ public class Main {
 	
 	private static String output(double[] output) {
 		StringBuilder out = new StringBuilder();
+		int largest = 0;
 		for (int i = 0; i < output.length; ++i) {
-			if (output[i] > 0.5) {
+			/*if (output[i] > 0.5) {
 				if (out.length() > 0) {
 					out.append(", ");
 				}
 				out.append(OUTNAMES[i]);
-			}
+			}*/
+			if (output[i] > output[largest]) largest = i;
 		}
-		return out.toString();
+		return OUTNAMES[largest];//out.toString();
 	}
 
 	public static void main(String[] args) throws Exception {
-		int[] hidden = {100};
+		int[] hidden = {160};
 		Backpropagation mlp = new Backpropagation(32*30, hidden, 4);
-		mlp.setIterations(10000);
+	    mlp.setLearnRate(0.15);
+	    mlp.setIterations(10000);
+	    mlp.setMomentum(0.3);
+	    mlp.randomizeWeights(-1, 1);
 		
 		// Train the network
 		for (int i = 0; i < trainingNames.length; ++i) {

@@ -1,5 +1,6 @@
 package problem3;
 
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,6 +51,7 @@ public class ImageReader {
 		
 		int width = 0;
 		int height = 0;
+		int maximum = 0;
 		int i = 3;
 		while (contents[i] >= '0' && contents[i] <= '9') {
 			width *= 10;
@@ -61,13 +63,28 @@ public class ImageReader {
 			height += contents[i++] - '0';
 		}
 		++i;
-		while (contents[i] >= '0' && contents[i] <= '9') { ++i; }
+		while (contents[i] >= '0' && contents[i] <= '9') {
+			maximum *= 10;
+			maximum += contents[i++] - '0';
+		}
 		++i;
 		
 		
 		double[] ret = new double[width*height];
 		for (int j = 0; j < width * height; ++j, ++i) {
-			ret[j] = contents[i];
+			double val = contents[i];
+			if (val < 0) val += 128;
+			val /= maximum;
+			ret[j] = val;
+		}
+		
+		FileOutputStream stream = new FileOutputStream("test.pgm");
+		try {
+			byte[] head = {'P', '5', 10, 51, 50, 32, 51, 48, 10, 49, 53, 54, 10};
+			stream.write(head);
+		    stream.write(contents);
+		} finally {
+		    stream.close();
 		}
 		
 		return ret;
