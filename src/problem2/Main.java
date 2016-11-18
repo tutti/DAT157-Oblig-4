@@ -40,7 +40,6 @@ public class Main {
 		
 		for (int i = 0; i < 4; ++i) {
 			boolean[] counterpropagationTest = counterpropagation.run(cells[i][0]);
-			//boolean[] counterpropagationTestOut = counterpropagation.run(cells[i][1]);
 			
 			System.out.print("Test cell input " + (i+1) + ":");
 			printCell(cells[i][0], 12);
@@ -57,10 +56,6 @@ public class Main {
 			System.out.println();
 			System.out.println();
 			
-			/*System.out.print("counterpropagation test cell output " + (i+1) + " (out):");
-			printCell(counterpropagationTestOut, 12);
-			System.out.println();
-			System.out.println();*/
 		}
 	}
 
