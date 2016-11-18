@@ -99,6 +99,7 @@ public class Main {
 		int[] hidden = {100};
 		Backpropagation mlp = new Backpropagation(240, hidden, 1);
 		mlp.setIterations(10000);
+		mlp.setLearnRate(0.3);
 		mlp.trainPatterns(_trainingData, _trainingAnswers);
 		
 		int correctWithDash = 0;

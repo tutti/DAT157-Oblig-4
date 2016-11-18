@@ -41,7 +41,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws Exception {
-		int[] hidden = {100};
+		int[] hidden = {160};
 		Backpropagation mlp = new Backpropagation(32*30, hidden, 4);
 	    mlp.setLearnRate(0.15);
 	    mlp.setIterations(1000);
