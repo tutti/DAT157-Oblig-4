@@ -405,16 +405,22 @@ public class Main {
 		}
 		return sb.toString();
 	}
+	
+	private static String BAMgetName(boolean[] output) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < NAMES.length; ++i) {
+			if (output[i]) {
+				if (sb.length() != 0) sb.append(", ");
+				sb.append(NAMES[i]);
+			}
+		}
+		return sb.toString();
+	}
 
 	public static void main(String[] args) {
 		//Hopfield hopfield = new Hopfield(EYE_COLOURS.length + HAIR_TYPES.length + SEXES.length + COUNTRIES.length + NAMES.length + 17);
 		Hopfield hopfield = new Hopfield();
 		hopfield.setIterations(10000);
-		
-		/*
-		"Jessie",
-		"James",
-		*/
 		
 		boolean[] anne = toBoolArray("Glowing", "Afro", 154, "Female", 28, "North Korea", "Anne Bortinatta");
 		boolean[] erna = toBoolArray("Amber", "Short", 200, "Female", 23, "Norway", "Erna Solberg");
@@ -434,7 +440,7 @@ public class Main {
 		boolean[] tingle = toBoolArray("Green", "Spiky", 136, "Male", 22, "Azerbaijan", "Tingle");
 		
 		boolean[][] nastyPeople = {
-			anne, erna, donald/*, magicmike, jose, nigel, pikachu, frieza, hamburglar, johnhopfield,
+			anne, erna, donald, magicmike, jose/*, nigel, pikachu, frieza, hamburglar, johnhopfield,
 			noddy, sandman, neo, jessie, james, tingle*/
 		};
 		
@@ -451,7 +457,10 @@ public class Main {
 		System.out.println("Hair type: " + getHairType(test));
 		System.out.println("Height: " + getHeight(test) + "cm");
 		
-		Bam bam = new Bam(EYE_COLOURS.length + HAIR_TYPES.length + SEXES.length + COUNTRIES.length + NAMES.length + 17, NAMES.length);
+		Bam bam = new Bam(EYE_COLOURS.length + HAIR_TYPES.length + SEXES.length + COUNTRIES.length + NAMES.length + 17, 16);
+		bam.setBipolar(true);
+		bam.setRandomUpdate(false);
+		bam.setStored(false);
 		
 		boolean[][] namePatterns = new boolean[NAMES.length][NAMES.length];
 		for (int i = 0; i < NAMES.length; ++i) {
@@ -459,11 +468,8 @@ public class Main {
 		}
 		
 		bam.trainPatterns(nastyPeople, namePatterns);
-		bam.setBipolar(true);
-		//bam.setRandomUpdate(false);
-		//bam.setStored(false);
 		
-		boolean[][] bamtest = bam.run(neo, null);
+		boolean[][] bamtest = bam.run(donald, null);
 		
 		System.out.println();
 		System.out.println("BAM NETWORK:");
@@ -474,9 +480,6 @@ public class Main {
 		System.out.println("Eye colour: " + getEyeColour(bamtest[0]));
 		System.out.println("Hair type: " + getHairType(bamtest[0]));
 		System.out.println("Height: " + getHeight(bamtest[0]) + "cm");
-		
-		System.out.println();
-		System.out.println(EYE_COLOURS.length + HAIR_TYPES.length + SEXES.length + COUNTRIES.length + NAMES.length + 17);
 	}
 
 }
