@@ -31,29 +31,33 @@ public class Main {
 		
 		//train counterpropagation
 		Counterpropagation counterpropagation = new Counterpropagation(144, 144, 144);
-		counterpropagation.trainPatterns(patterns, outpatterns);
 		counterpropagation.setIterations(100000);
+		counterpropagation.trainPatterns(patterns, outpatterns);
 		
 		
 		for (int i = 0; i < 4; ++i) {
 			boolean[] counterpropagationTest = counterpropagation.run(cells[i][0]);
-			boolean[] counterpropagationTestOut = counterpropagation.run(cells[i][1]);
-			System.out.print("Test cell input " + (i+1) + ":");
+			//boolean[] counterpropagationTestOut = counterpropagation.run(cells[i][1]);
 			
+			System.out.print("Test cell input " + (i+1) + ":");
 			printCell(cells[i][0], 12);
 			System.out.println();
 			System.out.println();
 			
-			System.out.print("Counterpropagation test cell output " + (i+1) + " (in):");
+			System.out.println("Test cell expected output " + (i+1) + ":");
+			printCell(cells[i][1], 12);
+			System.out.println();
+			System.out.println();
 			
+			System.out.print("Counterpropagation test cell output " + (i+1) + " (in):");
 			printCell(counterpropagationTest, 12);
 			System.out.println();
 			System.out.println();
-			System.out.print("counterpropagation test cell output " + (i+1) + " (out):");
 			
+			/*System.out.print("counterpropagation test cell output " + (i+1) + " (out):");
 			printCell(counterpropagationTestOut, 12);
 			System.out.println();
-			System.out.println();
+			System.out.println();*/
 		}
 	}
 
