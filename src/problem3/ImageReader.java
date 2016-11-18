@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 public class ImageReader {
 	private final static String BASE = "faces/";
 	
+	//private static int test = 0;
+	
 	private final static String[] DIRECTIONS = {"left", "right", "straight", "up"};
 	private final static String[] EXPRESSIONS = {"angry", "happy", "neutral", "sad"};
 	private final static String[] COVERS = {"open", "sunglasses"};
@@ -50,6 +52,7 @@ public class ImageReader {
 		
 		int width = 0;
 		int height = 0;
+		int maximum = 0;
 		int i = 3;
 		while (contents[i] >= '0' && contents[i] <= '9') {
 			width *= 10;
@@ -61,13 +64,19 @@ public class ImageReader {
 			height += contents[i++] - '0';
 		}
 		++i;
-		while (contents[i] >= '0' && contents[i] <= '9') { ++i; }
+		while (contents[i] >= '0' && contents[i] <= '9') {
+			maximum *= 10;
+			maximum += contents[i++] - '0';
+		}
 		++i;
 		
 		
 		double[] ret = new double[width*height];
 		for (int j = 0; j < width * height; ++j, ++i) {
-			ret[j] = contents[i];
+			double val = contents[i];
+			if (val < 0) val += 128;
+			val /= maximum;
+			ret[j] = val;
 		}
 		
 		return ret;
