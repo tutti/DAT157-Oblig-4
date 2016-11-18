@@ -39,6 +39,12 @@ public class Main {
 		return sb.toString();
 	}
 	
+	private static String compare(double[] pattern, double[] kohonenPattern){
+		
+		
+		return null;
+	}
+	
 	public static double[][] createRandomCompLayer(int i, int j) {
 		double[][] d = new double[i][j];
 		for (int k = 0; k < i; k++) {
@@ -72,17 +78,21 @@ public class Main {
 		int categories = 7, patternVariations = 3, rows = 9, cols = 7, inputNodes = rows*cols, outputNodes = patternVariations*categories;
 		
 		FontReader fontReader = new FontReader("letters.txt");
-		double[][] font1 = fontReader.getFont(0);
-		double[][] font2 = fontReader.getFont(1);
-		double[][] font3 = fontReader.getFont(2);
+		boolean[][] font1 = fontReader.getFont(0);
+		boolean[][] font2 = fontReader.getFont(1);
+		boolean[][] font3 = fontReader.getFont(2);
+		
+		double[][] dFont1 = toDoubles(font1);
+		double[][] dFont2 = toDoubles(font2);
+		double[][] dFont3 = toDoubles(font3);
 
 
 		// create the kohonen network
 		Kohonen kohonen = new Kohonen();
 		double[][] competingLayer = createRandomCompLayer(categories, inputNodes);
 		kohonen.setRandomUpdate(true);
-		kohonen.setIterations(110000);
-		kohonen.setLearnRate(1);
+		kohonen.setIterations(70000);
+		kohonen.setLearnRate(0.5);
 		//koh.setNetworkSize(2, 2);
 		kohonen.setCompetingLayer(competingLayer);
 		kohonen.setDecreseLearnRate(true);
@@ -90,11 +100,11 @@ public class Main {
 		kohonen.setNeighbourDecrese(Kohonen.LINEAR_DECRESE);
 		kohonen.setNeighbourRange(0.65);
 
-		kohonen.trainPatterns(font1);
-		kohonen.trainPatterns(font2);
-		kohonen.trainPatterns(font3);
+		kohonen.trainPatterns(dFont1);
+		kohonen.trainPatterns(dFont2);
+		kohonen.trainPatterns(dFont3);
 
-		double[][][] fonts = { font1, font2, font3 };
+		double[][][] fonts = { dFont1, dFont2, dFont3 };
 		
 
 		// Print the tests and their outputs
@@ -102,9 +112,12 @@ public class Main {
 		for (int f = 0; f < 3; ++f) {
 			System.out.println("Font " + (f + 1));
 			for (int i = 0; i < letters.length(); ++i) {
-				double[] out = kohonen.run(fonts[f][i]);
+				int out = kohonen.runIndex(fonts[f][i]);
+				double[] answer = kohonen.run(fonts[f][i]);
 				System.out.print("Testing with " + letters.charAt(i) + ": ");
-				System.out.println(findLetter(out));
+				//System.out.println(findLetter(out));
+				System.out.println(compare(fonts[f][i], answer));
+				
 			}
 			System.out.println();
 		}

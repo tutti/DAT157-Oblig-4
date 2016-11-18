@@ -1,5 +1,4 @@
 package problem4;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,7 +20,7 @@ public class FontReader {
 	
 	private String[] fontStrings;
 	
-	private double[][] readFont(String font) {
+	private boolean[][] readFont(String font) {
 		while (font.charAt(0) != '-' && font.charAt(0) != '#') {
 			font = font.substring(1);
 		}
@@ -30,7 +29,7 @@ public class FontReader {
 		String[] testLine = lines[0].split(" ");
 		int numLetters = testLine.length;
 		int letterWidth = testLine[0].length();
-		double[][] output = new double[numLetters][letterHeight*letterWidth];
+		boolean[][] output = new boolean[numLetters][letterHeight*letterWidth];
 		
 		for (int i = 0; i < lines.length; ++i) {
 			String line = lines[i];
@@ -39,11 +38,9 @@ public class FontReader {
 				String letterLine = letterLines[j];
 				for (int k = 0; k < letterLine.length(); ++k) {
 					char c = letterLine.charAt(k);
-					double[] letter = output[j];
+					boolean[] letter = output[j];
 					if (c == '#')
-						letter[i*letterWidth + k] = 1.0;
-					else if (c == '-')
-						letter[i*letterWidth + k] = 0.0;
+						letter[i*letterWidth + k] = true;
 				}
 			}
 		}
@@ -51,7 +48,7 @@ public class FontReader {
 		return output;
 	}
 	
-	public double[][] getFont(int num) {
+	public boolean[][] getFont(int num) {
 		if (num < 0 || num >= fontStrings.length) {
 			throw new ArrayIndexOutOfBoundsException("No such element.");
 		}
